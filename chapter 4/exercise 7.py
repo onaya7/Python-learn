@@ -13,6 +13,6 @@ try:
       print("F")
     else:
       print("Bad score.  Please run the program again.")  
-  computegrade()
+
 except: 
     print("Bad score.  Please run the program again.")

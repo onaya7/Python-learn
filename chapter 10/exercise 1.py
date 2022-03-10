@@ -1,27 +1,17 @@
-dictionary_addresses = dict()           # Initialize variables
-lst = list()
+import re
 
-fname = input('Enter file name: ')
-try:
-    fhand = open(fname)
-except FileNotFoundError:
-    print('File cannot be opened:', fname)
-    quit()
+count = 0                               # Initialize variables
+
+input_exp = input('Enter a regular expression: ')
+reg_exp = str(input_exp)                # Regular Expressions are strings
+fname = 'mbox.txt'
+fhand = open(fname)
 
 for line in fhand:
-    words = line.split()
-    if len(words) < 2 or words[0] != 'From':
-        continue
-    else:
-        if words[1] not in dictionary_addresses:
-            dictionary_addresses[words[1]] = 1   # First entry
-        else:
-            dictionary_addresses[words[1]] += 1      # Additional counts
+    line = line.rstrip()
 
-for key, val in list(dictionary_addresses.items()):
-    lst.append((val, key))              # Fills list with value, key of dict
+    # Only counts if something was found
+    if re.findall(reg_exp, line) != []:
+        count += 1
 
-lst.sort(reverse=True)                  # Sorts by highest value
-
-for count, email in lst[:1]:            # Only displays the largest value
-    print(email, count)
+print(fname + ' had ' + str(count) + ' lines that matched ' + reg_exp)
